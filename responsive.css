@@ -1,0 +1,42 @@
+/* Keep all six combat rows and the player's hand visible on laptop screens. */
+:root{--cu:min(var(--u),calc(max(450px,100vh - 260px)/54))}
+#dimensions{pointer-events:none;visibility:hidden;z-index:-1}
+.site-header{height:64px}.masthead{height:112px}.table-topline{height:37px;margin-top:0}
+#game-stage{height:min(calc(54 * var(--u)),max(450px,calc(100vh - 260px)))}
+footer{height:45px}
+.card,.field .card{width:calc(var(--cu)*4.06);height:calc(var(--cu)*5.8)}
+#hand-row>.card{width:calc(var(--cu)*4.9);height:calc(var(--cu)*7)}
+.sample-card{width:calc(var(--cu)*5.1);height:calc(var(--cu)*7.5)}
+.row-score{background:none!important;padding-bottom:2%;align-items:flex-end;font-size:calc(var(--u)*1.2)}
+.score-total{left:78%;width:20%;top:65%}#gem1-op,#gem1-me{left:62%}#gem2-op,#gem2-me{left:49%}
+.field-row:after{top:19%;font-size:calc(var(--u)*1.8)}
+.field-row:after{content:'';width:calc(var(--u)*2);height:calc(var(--u)*2);opacity:.48;background:center/contain no-repeat}
+.field-row[data-row='ranged']:after{background-image:url('ui/bow.svg')}.field-row[data-row='close']:after{background-image:url('ui/swords.svg')}.field-row[data-row='siege']:after{background-image:url('ui/siege.svg')}
+.field-row:before{font-size:max(9px,calc(var(--u)*.84))}#turn-hint{font-size:max(10px,calc(var(--u)*.75))}#journal blockquote{font-size:max(9px,calc(var(--u)*.7))}#match-log{font-size:max(9px,calc(var(--u)*.65))}
+#lobby-panel{top:5%}#lobby-panel h2{font-size:calc(var(--u)*1.3);margin:9px 0 6px}#lobby-panel>p{margin-bottom:calc(var(--cu)*1.4)}
+#faction-options{gap:calc(var(--cu)*.55)}.faction-option{padding:calc(var(--cu)*.5)}.faction-option img{width:calc(var(--cu)*2.1);height:calc(var(--cu)*2.4)}
+.text-button{padding:calc(var(--cu)*1.1) 4px;margin-top:calc(var(--cu)*1.1)}
+.faction-description-inline{padding-top:calc(var(--cu)*.8);font-size:calc(var(--u)*.7)}
+#lobby-center{top:23%;padding:calc(var(--cu)*2.3) 0}#lobby-center h2{font-size:calc(var(--u)*1.9)}
+.small-ornament{margin-bottom:calc(var(--cu)*1.3)}.start-note{margin-top:14px}
+#journal .journal-rule,.is-lobby #journal .journal-rule{margin:calc(var(--cu)*1.7) 0}
+#journal blockquote{font-size:calc(var(--u)*.7);line-height:1.8;margin-top:8px}
+#round-tracker{margin:calc(var(--cu)*1.4) 0}
+.leader-box>.leader-container{width:calc(var(--cu)*3.6);height:100%}.leader-box>div>.card{width:100%;height:100%;background-size:contain;background-position:center}
+.cardpile .deck-card{width:calc(var(--cu)*3.7);height:calc(var(--cu)*5.5)}
+.cardpile{display:block!important}.cardpile>.deck-card,.cardpile>.card{position:absolute!important;top:0!important;margin:0!important}
+.cardpile>.deck-counter{position:absolute!important;top:auto!important;bottom:-8px;left:15%!important;z-index:5;margin:0}
+.leader-box>.leader-container{width:calc(var(--cu)*4.3);height:calc(var(--cu)*6.1)}
+#carousel>:nth-child(1){padding-top:7%;min-height:78%}#carousel>:nth-child(1)>.card-lg{width:calc(var(--cu)*15);height:calc(var(--cu)*28.3)}#carousel>:nth-child(1)>:nth-child(2n){width:calc(var(--cu)*12);height:calc(var(--cu)*22.6)}#carousel>:nth-child(1)>:nth-child(4n - 3){width:calc(var(--cu)*10);height:calc(var(--cu)*18.8)}
+#carousel .card-description{height:16%;top:75%}.carousel-close{height:6%;top:93%;min-height:25px}
+.quit-control{display:none}body:has(#game-stage:not(.is-lobby)) .quit-control{display:inline-block}
+#popup{background:#f0e4cfee!important}
+#game-stage:has(#deck-customization:not(.hide)) #lobby-panel,#game-stage:has(#deck-customization:not(.hide)) #lobby-center{visibility:hidden}
+#game-stage:not(.is-lobby) .journal-bottom{display:none}
+.hand-caption,.is-lobby .hand-caption{top:80%}
+#card-leader>div{background-repeat:no-repeat;background-position:center;margin-top:12%;height:90%}
+#deck-stats{top:59%;height:auto;display:grid;grid-template-columns:1fr auto;gap:5px 8px;padding:0 5px}
+#deck-stats>p:nth-child(n){margin:0;padding:0;background:none;font-size:max(9px,calc(var(--u)*.73));text-align:left;line-height:1.5}
+#deck-stats>p:nth-child(even){text-align:right;color:var(--copper)}
+@media(max-height:760px){#journal{height:43%}#journal>.eyebrow,#journal blockquote,#journal>.journal-rule:nth-of-type(2){display:none}#journal #match-log{max-height:45px}.is-lobby #journal>.eyebrow,.is-lobby #journal blockquote{display:block}.is-lobby #journal{height:84%}#lobby-panel>.eyebrow{font-size:8px}#lobby-center h2{margin-top:14px}#lobby-center .small-ornament{margin-bottom:12px}}
+@media(max-width:900px){:root{--cu:8px}.masthead{height:112px}.site-header nav{gap:12px}.site-header nav button{font-size:11px}.site-header nav button span{font-size:6px}#game-stage{height:486px}.local-badge{display:none}.masthead h1{font-size:25px}.table-topline{height:37px}}

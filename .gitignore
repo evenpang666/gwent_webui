@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Generated output and release archives
+/output/
+*.zip
+
+# Local logs and environment settings
+*.log
+.env
+.env.*
+!.env.example
+
+# Python tooling cache
+__pycache__/
+*.py[cod]
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
+desktop.ini
