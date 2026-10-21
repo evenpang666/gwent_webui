@@ -3,23 +3,28 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = __dirname;
 const {getNetworkInfo} = require('./network.cjs');
+const {RoomService} = require('./multiplayer/rooms.cjs');
 const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.mp3':'audio/mpeg','.json':'application/json'};
-function createServer() {
-return http.createServer((req,res) => {
+function createServer(options = {}) {
+const rooms = new RoomService(options);
+const server = http.createServer(async (req,res) => {
   let pathname;
   try { pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname); } catch { res.writeHead(400).end(); return; }
+  if (pathname === '/api/rooms' || pathname.startsWith('/api/rooms/')) { await rooms.handle(req,res,pathname); return; }
   if (pathname === '/api/network-info') {
     res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}).end(JSON.stringify(getNetworkInfo(req.socket.localPort)));
     return;
   }
   // Only serve game assets; LAN clients do not need project internals or dotfiles.
-  if (pathname !== '/' && (!/\.(html|js|css|svg|png|jpe?g|mp3|ogg|wav|ico|woff2?)$/i.test(pathname) || pathname.split('/').some(part=>part.startsWith('.')) || /^\/(tests|docs|output)\//i.test(pathname))) { res.writeHead(404).end('Not found'); return; }
+  if (pathname !== '/' && (!/\.(html|js|css|svg|png|jpe?g|mp3|ogg|wav|ico|woff2?)$/i.test(pathname) || pathname.split('/').some(part=>part.startsWith('.')) || /^\/(tests|docs|output|multiplayer)\//i.test(pathname))) { res.writeHead(404).end('Not found'); return; }
   let file;
   file = path.resolve(root, '.' + pathname);
   if (file !== root && !file.startsWith(root + path.sep)) { res.writeHead(403).end(); return; }
   if (file === root || fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file,'index.html');
   fs.readFile(file,(error,data) => { if(error) {res.writeHead(404).end('Not found');return;} res.writeHead(200,{'Content-Type':types[path.extname(file)] || 'application/octet-stream','Cache-Control':'no-cache'}).end(data); });
 });
+server.on('close',()=>rooms.dispose());
+return server;
 }
 
 if (require.main === module) {

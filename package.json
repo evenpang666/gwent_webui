@@ -3,5 +3,5 @@
   "version": "1.0.0",
   "private": true,
   "description": "Local single-player Witcher 3 classic Gwent, with a vintage Chinese interface",
-  "scripts": { "dev": "node server.cjs", "start": "node server.cjs", "test": "node --test tests/rules.test.cjs tests/progress.test.cjs tests/network.test.cjs tests/launcher.test.cjs" }
+  "scripts": { "dev": "node server.cjs", "start": "node server.cjs", "test": "node --test tests/rules.test.cjs tests/progress.test.cjs tests/network.test.cjs tests/launcher.test.cjs tests/multiplayer.test.cjs" }
 }

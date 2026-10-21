@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const {spawn} = require('node:child_process');
-const launcher = path.resolve(__dirname, '../启动游戏.cmd');
+const launcher = path.resolve(__dirname, '../start.cmd');
 
 test('Windows launcher stays ASCII with CRLF command boundaries', () => {
   const bytes=fs.readFileSync(launcher);

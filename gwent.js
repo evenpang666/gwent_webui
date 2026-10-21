@@ -552,7 +552,7 @@ class Player {
 	passRound(){
 		this.setPassed(true);
 		EventManager.roundPassed.dispatch(this, game.roundCount);
-		this.endTurn();
+		return this.endTurn();
 	}
 	
 	// Plays a scorch card
@@ -576,7 +576,7 @@ class Player {
 		await sleep(1000);
 		ui.hidePreview(card);
 		await action();
-		this.endTurn();
+		await this.endTurn();
 	}
 	
 	// Handles end of turn visuals and behavior the notifies the game
@@ -588,7 +588,7 @@ class Player {
 		}
 		document.getElementById("stats-" + this.tag).classList.remove("current-turn");
 		this.elem_leader.children[1].classList.add("hide");
-		game.endTurn()
+		return game.endTurn();
 	}
 	
 	// Tells the the Player if it won the round. May damage health.
@@ -615,7 +615,7 @@ class Player {
 		ui.hidePreview(this.leader);
 		await this.leader.activated[0](this.leader, this);
 		this.disableLeader();
-		this.endTurn();
+		await this.endTurn();
 	}
 	
 	// Disable access to leader ability and toggles leader visuals to off state
@@ -1255,7 +1255,7 @@ class Weather extends CardContainer {
 		if (card.name === "Clear Weather"){
 			// TODO Sunlight animation
 			await sleep(500);
-			this.clearWeather();
+			await this.clearWeather();
 		} else {
 			this.changeWeather(card, x => ++this.types[x].count === 1, (r,t) => r.addOverlay(t.name));
 			if (isDuplicate)
@@ -1508,7 +1508,7 @@ class Game {
 		AudioManager.playSFX("game_start");
 		await this.initialRedraw();
 		this.currPlayer = this.firstPlayer;
-		this.startRound();
+		await this.startRound();
 	}
 	
 	// Simulated coin toss to determine who starts game
@@ -1559,7 +1559,7 @@ class Game {
 		await ui.notification("round-start", 1200);
 		AudioManager.playSFX(this.currPlayer === player_me ? "turn_me" : "turn_op");
 		await ui.notification(this.currPlayer.tag + "-turn", 1200);
-		this.startTurn();
+		await this.startTurn();
 	}
 	
 	// Starts a new turn. Enables client interraction in client's turn.
@@ -1568,7 +1568,7 @@ class Game {
 		await globalThis.matchProgress?.checkpoint('turn');
 		if (this.currPlayer === player_op) globalThis.matchProgress?.leaveCheckpoint();
 		ui.enablePlayer(this.currPlayer === player_me);
-		this.currPlayer.startTurn();
+		await this.currPlayer.startTurn();
 	}
 	
 	// Ends the current turn and may end round. Disables client interraction in client's turn.
@@ -1579,7 +1579,7 @@ class Game {
 		if (this.currPlayer.passed)
 			await ui.notification(this.currPlayer.tag + "-pass", 1200);
 		if (player_op.passed && player_me.passed)
-			this.endRound();
+			await this.endRound();
 		else
 		{
 			if (!this.currPlayer.opponent().passed)
@@ -1632,11 +1632,11 @@ class Game {
 
 		EventManager.roundEnded.dispatch(this.roundCount, player_me.total, player_op.total);
 		if (player_me.health === 0 || player_op.health === 0)
-			this.endGame();
+			await this.endGame();
 		else
 		{
 			this.currPlayer = dif < 0 ? player_op : dif > 0 ? player_me : this.firstPlayer;
-			this.startRound();
+			await this.startRound();
 		}
 	}
 	

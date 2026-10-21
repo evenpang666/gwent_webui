@@ -15,9 +15,9 @@
 
 ## Windows 双击启动窗口立即关闭
 
-使用最新版 `启动游戏.cmd`。启动脚本使用 ASCII 内容和 Windows CRLF 换行，避免 `cmd.exe` 将中文或不兼容的换行误解析为命令；`.gitattributes` 会在 Git 检出时保留该格式。
+使用最新版 `start.cmd`。启动脚本使用 ASCII 内容和 Windows CRLF 换行，避免 `cmd.exe` 将中文或不兼容的换行误解析为命令；`.gitattributes` 会在 Git 检出时保留该格式。
 
-启动失败时窗口会显示错误并等待按键。若提示缺少 Node.js、版本过旧或缺少 `server.cjs`，按窗口提示处理。也可先打开终端，进入项目目录执行 `.\启动游戏.cmd` 或 `npm start` 查看完整报错。正常运行期间需要保持服务窗口打开。
+启动失败时窗口会显示错误并等待按键。若提示缺少 Node.js、版本过旧或缺少 `server.cjs`，按窗口提示处理。也可先打开终端，进入项目目录执行 `.\start.cmd` 或 `npm start` 查看完整报错。正常运行期间需要保持服务窗口打开。
 
 ## 手机或其他设备打不开
 

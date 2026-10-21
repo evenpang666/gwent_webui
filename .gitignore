@@ -3,6 +3,7 @@ node_modules/
 
 # Generated output and release archives
 /output/
+/.data/
 *.zip
 
 # Local logs and environment settings

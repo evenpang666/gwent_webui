@@ -14,7 +14,9 @@
 | `gwent.js`、`abilities.js`、`factions.js` | 规则引擎、技能、阵营与电脑策略 |
 | `cards.js`、`decks.js` | 卡牌数据和预设牌组 |
 | `img/`、`sfx/`、`svg/` | 本地美术和音效 |
-| `server.cjs`、`start.sh`、`启动游戏.cmd` | HTTP 服务与启动入口 |
+| `server.cjs`、`start.sh`、`start.cmd` | HTTP 服务与启动入口 |
+| `multiplayer.js`、`multiplayer.css` | 双人房间、组牌、双方视角与回合交互 |
+| `multiplayer/` | 房间身份、访客牌组持久化、共享引擎的服务端适配 |
 | `tests/` | 规则、存档、音量与网络测试 |
 | `docs/images/` | README 使用的界面截图 |
 
@@ -34,10 +36,13 @@ npm test
 | `tests/progress.test.cjs` | 五个阵营的实际读档路径、牌库顺序、天气和号角、间谍归属、第三局复活、暂停边界、换牌 DOM 顺序、音量与文件名大小写 |
 | `tests/network.test.cjs` | 以太网优先、Wi-Fi 回退、虚拟网卡过滤、实时端口、HTTP 资源和内部文件访问限制 |
 | `tests/launcher.test.cjs` | Windows 启动脚本格式、中文和空格路径、缺少 Node.js、缺少服务文件、启动失败时保留窗口 |
+| `tests/multiplayer.test.cjs` | 双方准备、空牌组与缓存隔离、身份校验、私有手牌、真人技能选择、回合验证、重连与对局结算 |
 
 存档测试通过 VM 和最小 DOM 环境调用实际引擎与恢复代码；网络测试会启动临时 HTTP 服务并发起本地请求。
 
 启动脚本测试在 Windows 上调用真实 `cmd.exe`，在临时目录运行无后台服务的测试入口，确认等待按键后才退出；其他系统跳过 Windows 运行检查。修改 `.cmd` 后保留 ASCII 和 CRLF，`.sh` 保留 LF。
+
+双人对局在房主服务的独立 VM 中运行 `gwent.js`、`abilities.js` 和 `factions.js`。DOM 适配只提供引擎需要的呈现接口；计分、抽牌、阵营与技能复用原代码。HTTP 接口只接受玩家意图，由服务验证回合、目标和选择编号，并只返回该玩家可见的状态。访客牌组仅按去除前后空格的玩家名称索引，原子写入 `.data/guest-decks.json`，不依赖设备标识；兼容读取旧缓存，同名取最近保存记录，首次写入新格式前保留旧文件备份。
 
 ## 手动检查
 
